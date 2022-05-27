@@ -12,6 +12,7 @@ if __name__ == "__main__":
     webapp_compose = "docker-compose.yml"
     test_compose = "docker-compose.test.yml"
     
+    # Generate random passwords each run
     os.environ["DB_ROOT_PASSWORD"] = secrets.token_urlsafe()
     os.environ["DB_USER_PASSWORD"] = secrets.token_urlsafe()
 
