@@ -1,0 +1,6 @@
+services:
+    web:
+      working_dir: /usr/src
+      command: bash -c 'pip install -r tests/requirements.txt && python -m pytest -v'
+      volumes:
+        - ./tests:/usr/src/tests

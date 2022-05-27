@@ -1,0 +1,10 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+    <div>Username: {{user | escape}}</div>
+    <div>Email: {{email | escape}}</div>
+    <form method="POST">
+        <input id="email" name="email" placeholder="new email address">
+        <button type="submit">Update email address</button>
+    </form>
+{% endblock %}

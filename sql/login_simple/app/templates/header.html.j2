@@ -1,0 +1,8 @@
+{% if user is defined and user is not none %}
+    <a href="/">Grades</a>
+    <a href="/profile">Profile</a>
+    <div>{{user | escape}}</div>
+    <a href="/logout">
+        <button>Logout</button>
+    </a>
+{% endif %}
