@@ -18,7 +18,7 @@ def get_conn(force_new=False) -> mysql.connector.MySQLConnection:
     else:
         db_pass = get_db_pass()
         # It seems to take a long time for the mysql container to startup
-        attempts = 10
+        attempts = 30
         for attempt in range(attempts):
             try:
                 conn = mysql.connector.connect(user='webapp', password=db_pass, database='webapp', host='db')

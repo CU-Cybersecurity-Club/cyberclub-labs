@@ -16,9 +16,9 @@ if __name__ == "__main__":
     os.environ["DB_ROOT_PASSWORD"] = secrets.token_urlsafe()
     os.environ["DB_USER_PASSWORD"] = secrets.token_urlsafe()
 
-    subprocess.run(["docker-compose", "down", "-v"])
+    subprocess.run(["docker", "compose", "down", "-v"])
     if args.test:
         # The test_compose file reuses, but overrides, the webapp_compose file
-        subprocess.run(["docker-compose", "-f", webapp_compose, "-f", test_compose, "up", "--abort-on-container-exit"])
+        subprocess.run(["docker", "compose", "-f", webapp_compose, "-f", test_compose, "up", "--abort-on-container-exit"])
     else:
-        subprocess.run(["docker-compose", "up", "--abort-on-container-exit"])
+        subprocess.run(["docker", "compose", "up", "--abort-on-container-exit"])

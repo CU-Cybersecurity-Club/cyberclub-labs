@@ -8,7 +8,7 @@ The lab should be easy to set up on any machine that has docker installed and py
 The recommended approach to setting up this lab is:
 
     1) Navigate to this directory
-    2) Run `docker-compose build` to build the required images
+    2) Run `docker compose build` to build the required images
     3) Run `python run.py`
 
 If you optionally want to run the tests to make sure the lab is working, you can follow the same steps but replace the final command with `python run.py --test`.
