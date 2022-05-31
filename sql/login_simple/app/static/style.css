@@ -1,0 +1,18 @@
+/* Color Palette */
+:root {
+    --dark: #006d77;
+    --bs-dark: #006d77; /* Override Bootstrap's dark color */
+    --bs-dark-rgb: 0,109,119; /* Override Bootstrap's dark color */
+    --light: #83c5be;
+    --dark-alternate: #e29578;
+    --light-alternate: #ffddd2;
+    --neutral: #edf6f9;
+}
+
+body {
+    background: var(--neutral);
+}
+
+.centered-form {
+    max-width: 500px;
+}

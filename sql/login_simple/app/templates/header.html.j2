@@ -1,8 +1,20 @@
 {% if user is defined and user is not none %}
-    <a href="/">Grades</a>
-    <a href="/profile">Profile</a>
-    <div>{{user | escape}}</div>
-    <a href="/logout">
-        <button>Logout</button>
-    </a>
+<header class="py-3 mb-4 bg-dark text-white">
+    <div class="d-flex flex-wrap align-items-center justify-content-between mx-3">
+        <div>Welcome {{user | escape}}</div>
+        <div class="d-flex align-items-center">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0 mx-3">
+                <li>
+                    <a href="/" class="nav-link px-2 text-white">Grades</a>
+                </li>
+                <li>
+                    <a href="/profile" class="nav-link px-2 text-white">Profile</a>
+                </li>
+            </ul>
+            <a href="/logout">
+                <button class="btn btn-outline-light me-2">Logout</button>
+            </a>
+        </div>
+    </div>
+</header>
 {% endif %}

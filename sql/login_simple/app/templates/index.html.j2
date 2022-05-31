@@ -1,7 +1,6 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-    <h1>Gradebook</h1>
     {% if user is none %}
         {% include 'login.html.j2' %}
     {% else %}
