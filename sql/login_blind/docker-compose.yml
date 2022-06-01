@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    networks:
+      - backend
+    depends_on:
+      - db
+    environment:
+      DB_USER_PASSWORD: ${DB_USER_PASSWORD}
+
+
+  db:
+    image: mysql
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: webapp
+      MYSQL_USER: webapp
+      MYSQL_PASSWORD: ${DB_USER_PASSWORD}
+
+networks:
+  backend:

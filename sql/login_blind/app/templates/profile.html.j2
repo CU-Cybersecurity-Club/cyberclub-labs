@@ -1,0 +1,14 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+<div class="d-flex centered-form text-center m-auto">
+    <div class="d-flex flex-grow-1 flex-column">
+        <p>Username: {{user | escape}}</p>
+        <p>Email: {{email | escape}}</p>
+        <form method="POST">
+            <input class="form-control mb-3" id="email" name="email" placeholder="new email address">
+            <button type="submit" class="btn btn-primary">Update email address</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

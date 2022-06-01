@@ -1,0 +1,24 @@
+<div class="mx-auto w-75">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th colspan="3">Semester Grades</th>
+            </tr>
+            <tr>
+                <th>username</th>
+                <th>course</th>
+                <th>grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user, subject, grade in grades %}
+            <tr>
+                <td>{{user | escape}}</td>
+                <td>{{subject | escape}}</td>
+                <td>{{grade | escape}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h3 class="text-center">Overall GPA: {{gpa | escape}}</h3>
