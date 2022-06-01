@@ -14,10 +14,10 @@ def login_as(username, client):
 
 # Note(klinvill): the database queries from app.db seem to fail when called directly unless we force a new connection. Given the current structure of app.db, that means duplicating them here.
 def get_email(user):
-    with get_conn(force_new=True) as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT email FROM Users WHERE username=%s", (user,))
-            email = cursor.fetchone()
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT email FROM Users WHERE username=%s", (user,))
+        email = cursor.fetchone()
     if email is not None:
         # MySQL returns the query results as a tuple
         email = email[0]
@@ -25,10 +25,10 @@ def get_email(user):
 
 
 def get_grade(user, course):
-    with get_conn(force_new=True) as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT grade FROM Grades WHERE username=%s AND course=%s", (user, course))
-            grade = cursor.fetchone()
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT grade FROM Grades WHERE username=%s AND course=%s", (user, course))
+        grade = cursor.fetchone()
     if grade is not None:
         # MySQL returns the query results as a tuple
         grade = grade[0]

@@ -34,15 +34,15 @@ def get_conn(force_new=False) -> mysql.connector.MySQLConnection:
 
 
 def db_login(user, password):
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            query = f"SELECT username FROM Users WHERE username='{user}' and password='{password}'"
-            try:
-                cursor.execute(query)
-                user = cursor.fetchone()
-            except mysql.connector.errors.Error as e:
-                print(f"Error while executing login query: {e}")
-                user = None
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        query = f"SELECT username FROM Users WHERE username='{user}' and password='{password}'"
+        try:
+            cursor.execute(query)
+            user = cursor.fetchone()
+        except mysql.connector.errors.Error as e:
+            print(f"Error while executing login query: {e}")
+            user = None
     
     if user is not None:
         # MySQL returns the query results as a tuple
@@ -65,10 +65,10 @@ def grade_points(letter_grade):
 
 
 def get_grades(user):
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM Grades WHERE username=%s", (user,))
-            grades = cursor.fetchall()
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM Grades WHERE username=%s", (user,))
+        grades = cursor.fetchall()
     
     letter_grades = [grade[2] for grade in grades]
     if len(grades) == 0:
@@ -79,10 +79,10 @@ def get_grades(user):
 
 
 def get_email(user):
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            cursor.execute("SELECT email FROM Users WHERE username=%s", (user,))
-            email = cursor.fetchone()
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT email FROM Users WHERE username=%s", (user,))
+        email = cursor.fetchone()
     if email is not None:
         # MySQL returns the query results as a tuple
         email = email[0]
@@ -90,18 +90,18 @@ def get_email(user):
 
 
 def update_email(user, email):
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            query = f"UPDATE Users SET email='{email}' WHERE username='{user}'"
-            try:
-                for result in cursor.execute(query, multi=True):
-                    changed = result.rowcount
-            except mysql.connector.errors.Error as e:
-                print(f"Error while executing email update query: {e}")
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        query = f"UPDATE Users SET email='{email}' WHERE username='{user}'"
         try:
-            conn.commit()
+            for result in cursor.execute(query, multi=True):
+                changed = result.rowcount
         except mysql.connector.errors.Error as e:
-                print(f"Error while executing email update query: {e}")
+            print(f"Error while executing email update query: {e}")
+    try:
+        conn.commit()
+    except mysql.connector.errors.Error as e:
+            print(f"Error while executing email update query: {e}")
     return query
 
 
@@ -128,46 +128,46 @@ def insert_users():
     user_table = "Users"
     grades_table = "Grades"
 
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            # First clear existing rows
-            cursor.execute(f"TRUNCATE TABLE {user_table}")
-            cursor.execute(f"TRUNCATE TABLE {grades_table}")
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        # First clear existing rows
+        cursor.execute(f"TRUNCATE TABLE {user_table}")
+        cursor.execute(f"TRUNCATE TABLE {grades_table}")
 
-            # Then add new rows
-            for user in users:
-                cursor.execute(f"INSERT INTO {user_table} (username, password, email) VALUES (%s, %s, %s)", (user, secrets.token_urlsafe(), f"{user}@school.edu"))
+        # Then add new rows
+        for user in users:
+            cursor.execute(f"INSERT INTO {user_table} (username, password, email) VALUES (%s, %s, %s)", (user, secrets.token_urlsafe(), f"{user}@school.edu"))
 
-            for entry in grades:    
-                cursor.execute(f"INSERT INTO {grades_table} (username, course, grade) VALUES (%s, %s, %s)", (entry["user"], entry["course"], entry["grade"]))
+        for entry in grades:    
+            cursor.execute(f"INSERT INTO {grades_table} (username, course, grade) VALUES (%s, %s, %s)", (entry["user"], entry["course"], entry["grade"]))
 
-        conn.commit()
+    conn.commit()
 
 
 def init_db():
-    with get_conn() as conn:
-        with conn.cursor() as cursor:
-            # Drop old tables
-            cursor.execute("DROP TABLE IF EXISTS Users")
-            cursor.execute("DROP TABLE IF EXISTS Grades")
+    conn = get_conn()
+    with conn.cursor() as cursor:
+        # Drop old tables
+        cursor.execute("DROP TABLE IF EXISTS Users")
+        cursor.execute("DROP TABLE IF EXISTS Grades")
 
-            # Create new tables
-            cursor.execute("""
-                CREATE TABLE Users (
-                    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                    username TEXT NOT NULL,
-                    password TEXT NOT NULL,
-                    email TEXT NOT NULL
-                )
-            """)
+        # Create new tables
+        cursor.execute("""
+            CREATE TABLE Users (
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                username TEXT NOT NULL,
+                password TEXT NOT NULL,
+                email TEXT NOT NULL
+            )
+        """)
 
-            cursor.execute("""
-                CREATE TABLE Grades (
-                    username TEXT NOT NULL,
-                    course TEXT NOT NULL,
-                    grade TEXT NOT NULL
-                )
-            """)
+        cursor.execute("""
+            CREATE TABLE Grades (
+                username TEXT NOT NULL,
+                course TEXT NOT NULL,
+                grade TEXT NOT NULL
+            )
+        """)
 
     # And then populate them
     insert_users()
