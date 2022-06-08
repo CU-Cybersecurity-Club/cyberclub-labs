@@ -12,7 +12,7 @@ services:
 
 
   db:
-    image: mysql
+    image: mysql:oracle
     networks:
       - backend
     environment:
