@@ -25,7 +25,7 @@ def get_conn(force_new=False) -> mysql.connector.MySQLConnection:
                 if has_app_context():
                     g.db = conn
                 break
-            except mysql.connector.errors.DatabaseError as e:
+            except (mysql.connector.errors.DatabaseError, mysql.connector.errors.InterfaceError) as e:
                 if attempt == attempts - 1:
                     raise e
                 else:
