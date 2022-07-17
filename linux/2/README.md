@@ -1,0 +1,1 @@
+Using Linux concepts, your task is to simply display the contents of the `write_to_me.txt` file onto the terminal, and edit it for future use. Find a way to achieve read and write operations for the same.
