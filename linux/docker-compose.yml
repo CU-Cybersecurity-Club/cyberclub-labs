@@ -1,0 +1,5 @@
+services:
+  linux_ctr:
+    build: .
+    stdin_open: true
+    tty: true
