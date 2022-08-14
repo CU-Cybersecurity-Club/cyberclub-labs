@@ -1,0 +1,41 @@
+#! /usr/bin/env python3
+
+import calendar
+from datetime import date
+
+my_date = date.today()
+
+DATE = str(my_date.day)
+YEAR = str(my_date.year)
+DAY = calendar.day_name[my_date.weekday()]
+MONTH = calendar.month_name[my_date.month]
+
+def validate_day(line):
+    assert bool(len(line)), "Day line is empty"
+    assert line[:4] == "Day:", "DAY Line not as per instruction"
+    assert line[5:] == DAY or DAY[:2] == line[5:], "Incorrect DAY provided"
+
+def validate_month(line):
+    assert bool(len(line)), "Month line is empty"
+    assert line[:6] == "Month:", "MONTH Line not as per instruction"
+    assert line[8:] == MONTH, "Incorrect DAY provided"
+
+def validate_date(line):
+    assert bool(len(line)), "Date line is empty"
+    assert line[:5] == "Date:", "DATE Line not as per instruction"
+    assert line[7:] == DATE, "Incorrect DATE provided"
+
+
+def validate_year(line):
+    assert bool(len(line)), "Year line is empty"
+    assert line[:5] == "Year:", "DATE Line not as per instruction"
+    assert line[7:] == YEAR, "Incorrect YEAR provided"
+
+
+if __name__ == "__main__":
+    with open("output.txt", "r") as output_file:
+        lines = output_file.readlines()
+        validate_month(lines[0])
+        validate_day(lines[1])
+        validate_date(lines[2])
+        validate_year(lines[3])
